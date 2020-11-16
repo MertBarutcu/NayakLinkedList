@@ -7,117 +7,9 @@ class LinkyList<E> {
 
     private inner class Node<E> constructor(internal var element: E, internal var next: Node<E>?)
 
-    fun getFirst() = head?.element
-
-    fun getLast() = tail?.element
-
-    fun removeFirst() = unlinkHead()
-
-    fun removeLast() = unlinkTail()
-
-    fun addFirst(element: E) {
-        linkHead(element)
-    }
-
-    fun addLast(element: E) {
-        linkTail(element)
-    }
-
-    fun add(element: E) {
-        linkTail(element)
-    }
-
-    fun <T> addAll(index: Int, arr: Array<T>): Boolean where T : E {
-        validatePositionIndex(index)
-
-        val numNew = arr.size
-        if (numNew == 0) return false
-
-        var pred: Node<E>?
-        var succ: Node<E>?
-        when (index) {
-            0 -> {
-                succ = head
-                pred = null
-            }
-            size -> {
-                succ = null
-                pred = tail
-            }
-            else -> {
-                pred = node(index - 1)
-                succ = pred.next
-            }
-        }
-
-        for (item in arr) {
-            val e = item as E
-            val newNode = Node<E>(e, null)
-            if (pred == null)
-                head = newNode
-            else
-                pred.next = newNode
-            pred = newNode
-        }
-
-        if (succ == null) {
-            tail = pred
-        } else {
-            pred!!.next = succ
-        }
-
-        size += numNew
-        return true
-    }
-
-    fun remove(element: E): Boolean {
-        var curr = head
-        while (curr != null) {
-            if (curr.element == element) {
-                unlink(curr)
-                return true
-            }
-            curr = curr.next
-        }
-        return false
-    }
-
-    fun clear() {
-        var x = head
-        while (x != null) {
-            val next = x.next
-            x.next = null
-            x = next
-        }
-        tail = null
-        head = tail
-        size = 0
-    }
-
-    fun size() = size
-
-    operator fun contains(element: E) = indexOf(element) != -1
-
     fun get(index: Int): E {
         validateElementIndex(index)
         return node(index).element
-    }
-
-    fun set(index: Int, element: E): E {
-        validateElementIndex(index)
-        val x = node(index)
-        val oldVal = x.element
-        x.element = element
-        return oldVal
-    }
-
-    fun add(index: Int, element: E) {
-        validatePositionIndex(index)
-        if (index == size) {
-            linkTail(element)
-        } else {
-            linkBefore(element, node(index))
-        }
     }
 
     fun addV2(index: Int, element: E) {
@@ -134,23 +26,6 @@ class LinkyList<E> {
             x.next = newNode
             size++
         }
-    }
-
-    fun remove(index: Int): E {
-        validateElementIndex(index)
-        return unlink(node(index))
-    }
-
-    fun indexOf(element: E): Int {
-        var index = 0
-        var x = head
-        while (x != null) {
-            if (element == x.element)
-                return index
-            index++
-            x = x.next
-        }
-        return -1
     }
 
     private fun linkHead(element: E) {
@@ -184,31 +59,6 @@ class LinkyList<E> {
             pred.next = newNode
         }
         size++
-    }
-
-    private fun unlinkHead() {
-        head?.let {
-            val next = it.next
-            it.next = null
-            head = next
-            if (next == null) {
-                tail = null
-            }
-            size--
-        }
-    }
-
-    private fun unlinkTail() {
-        tail?.let {
-            val prev = getPrevious(it)
-            tail = prev
-            if (prev == null) {
-                head = null
-            } else {
-                prev.next = null
-            }
-            size--
-        }
     }
 
     private fun unlink(curr: Node<E>): E {
