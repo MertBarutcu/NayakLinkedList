@@ -28,7 +28,7 @@ class LinkyList<E> {
         }
     }
 
-    private fun linkHead(element: E) {
+     fun linkHead(element: E) {
         val h = head
         val newNode = Node<E>(element, h)
         head = newNode
@@ -38,7 +38,7 @@ class LinkyList<E> {
         size++
     }
 
-    private fun linkTail(element: E) {
+     fun linkTail(element: E) {
         val t = tail
         val newNode = Node<E>(element, null)
         tail = newNode
@@ -50,7 +50,7 @@ class LinkyList<E> {
         size++
     }
 
-    private fun linkBefore(element: E, succ: Node<E>) {
+     fun linkBefore(element: E, succ: Node<E>) {
         val pred = getPrevious(succ)
         val newNode = Node(element, succ)
         if (pred == null) {
@@ -61,7 +61,7 @@ class LinkyList<E> {
         size++
     }
 
-    private fun unlink(curr: Node<E>): E {
+     fun unlink(curr: Node<E>): E {
         val element = curr.element
         val next = curr.next
         val prev = getPrevious(curr)
